@@ -1,11 +1,11 @@
-FROM perl
+FROM perl:latest
 
 RUN useradd -m -s /bin/bash appuser \
     && cpanm Carmel --notest
 
-USER appuser
-RUN mkdir -p /home/appuser/webapp
 WORKDIR /home/appuser/webapp
+RUN chown appuser:appuser /home/appuser/webapp
+USER appuser
 
 COPY --chown=appuser:appuser webapp/cpanfile .
 RUN carmel install
